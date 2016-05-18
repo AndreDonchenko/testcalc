@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html ng-app="testCalc">
+<head>
+  <title>Simple Calculator</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bootstrap.min.css" type="text/css">
+  <script src="angular.min.js"></script>
+  <script>
+    angular.module('testCalc', [])
+        .controller('TestCalc', function ($http, $scope) {
+          $scope.expression = '';
+          $scope.result = '';
+          $scope.evaluate = function() {
+            if ($scope.expression.length > 0){
+              $http.post('/api', $scope.expression)
+                  .success(function(data) {
+                    $scope.result = data;
+                  });
+            }
+          }
+        });
+  </script>
+</head>
+
+<body>
+<h1>Simple Calculator</h1>
+<p>This is simple calculator. It can evaluate general mathematical expressions.</p>
+<p>The following operators are supported:</p>
+<pre>
+    ( open parentheses
+    ) closed parentheses
+    + addition
+    - subtration
+    * mutliplication
+    / division
+    % modulus
+    + unary plus
+    - unary minus</pre>
+<p>Also support many functions which represent most of the methods in the Math class:</p>
+<p>abs(), acos(), asin(), atan(), cos(), exp(), log(), pow(base, exponent), round(), sin(), sqrt(), tan(), toDegrees(), toRadians(). </p>
+<p></p>
+<p>For example:
+    <ul>
+        <li>123.12 + 34 * (12 - 10)</li>
+        <li>pow(2, 3) + sqrt(9)</li>
+    </ul>
+<div class="row">
+
+  <div class="container" ng-controller="TestCalc">
+    <div class="col-md-12">
+      <div style="height: 10px"></div>
+
+      <div class="well">
+        <div class="col-md-10">
+          <input type="text"
+                 style="width: 100%"
+                 class="form-control"
+                 ng-model="expression"
+                 placeholder="Enter expression here...">
+        </div>
+
+        <div class="col-md-2">
+          <button type="submit" ng-click="evaluate()" class="btn btn-primary">Evaluate it!</button>
+        </div>
+        <div class="col-md-12">
+          {{result}}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<p><a href='/history' >You can see your operation history here.</a></p>
+<p></p>
+<p><a href="mailto:andre.donchenko@gmail.com">andre.donchenko@gmail.com</a></p>
+</body>
+
+</html>
